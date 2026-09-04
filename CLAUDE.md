@@ -20,8 +20,8 @@ There is no test suite configured in this repo.
 
 ## Architecture
 
-- `App.jsx` owns the only shared state: the `transactions` array (`useState`, seeded with mock data, in-memory only — nothing is persisted) and the hardcoded `categories` array. It composes three child components and passes them what they need as props; it holds no form or filter state itself.
+- `App.jsx` owns the only shared state: the `transactions` array (`useState`, seeded with mock data, in-memory only — nothing is persisted) and the hardcoded `categories` array. It defines `addTransaction`/`deleteTransaction` and passes them down as callback props; it holds no form or filter state itself.
 - `Summary.jsx` takes `transactions` and derives `totalIncome`/`totalExpenses`/`balance` internally (each transaction's `amount` is a plain number, so these are straight `reduce` sums — no string coercion needed).
 - `TransactionForm.jsx` owns its own local form state (`description`, `amount`, `type`, `category`) and calls the `onAddTransaction` callback prop with a fully-formed transaction object (`amount` converted via `Number(amount)` since it comes from a text input).
-- `TransactionList.jsx` owns its own local filter state (`filterType`, `filterCategory`) and renders the filtered table; it takes `transactions` and `categories` as props.
+- `TransactionList.jsx` owns its own local filter state (`filterType`, `filterCategory`) and renders the filtered table; it takes `transactions` and `categories` as props. Each row's Delete button confirms via `window.confirm` before calling the `onDeleteTransaction` callback prop with the transaction's `id`.
 - Styling is plain CSS in `src/App.css` and `src/index.css`, no CSS framework.
