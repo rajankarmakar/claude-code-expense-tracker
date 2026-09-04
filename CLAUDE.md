@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project overview
 
-A React + Vite expense/finance tracker. This is the starter project for a Claude Code course — it intentionally ships with a bug, poor UI, and messy code, all in a single component (`src/App.jsx`).
+A React + Vite expense/finance tracker. This is the starter project for a Claude Code course — it originally shipped as one messy component with a bug and poor UI, which is being incrementally cleaned up.
 
 ## Commands
 
@@ -20,7 +20,8 @@ There is no test suite configured in this repo.
 
 ## Architecture
 
-- Everything lives in `src/App.jsx` as one component: transaction state, form state, filters, derived totals, and the full render tree. There is no component decomposition, routing, or state management library yet.
-- Transactions are in-memory only (`useState`, seeded with mock data) — nothing is persisted, and `amount` is stored/handled as a string (from text input) rather than a number, which affects the income/expense/balance sum logic.
+- `App.jsx` owns the only shared state: the `transactions` array (`useState`, seeded with mock data, in-memory only — nothing is persisted) and the hardcoded `categories` array. It composes three child components and passes them what they need as props; it holds no form or filter state itself.
+- `Summary.jsx` takes `transactions` and derives `totalIncome`/`totalExpenses`/`balance` internally (each transaction's `amount` is a plain number, so these are straight `reduce` sums — no string coercion needed).
+- `TransactionForm.jsx` owns its own local form state (`description`, `amount`, `type`, `category`) and calls the `onAddTransaction` callback prop with a fully-formed transaction object (`amount` converted via `Number(amount)` since it comes from a text input).
+- `TransactionList.jsx` owns its own local filter state (`filterType`, `filterCategory`) and renders the filtered table; it takes `transactions` and `categories` as props.
 - Styling is plain CSS in `src/App.css` and `src/index.css`, no CSS framework.
-- Category list is a hardcoded array (`categories` in `App.jsx`) shared between the add-transaction form and the filter dropdown.
