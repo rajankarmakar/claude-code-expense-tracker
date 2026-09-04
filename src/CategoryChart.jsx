@@ -1,6 +1,9 @@
-import { Bar, BarChart, CartesianGrid, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
-const COLORS = ['#4e79a7', '#f28e2b', '#e15759', '#76b7b2', '#59a14f', '#edc949', '#af7aa1'];
+const LINE = '#2a3a57';
+const DIM = '#92a0b8';
+const BRASS = '#c89b3c';
+const PANEL = '#182338';
 
 function CategoryChart({ transactions, categories }) {
   const data = categories
@@ -26,15 +29,17 @@ function CategoryChart({ transactions, categories }) {
       <h2>Spending by Category</h2>
       <ResponsiveContainer width="100%" height={300}>
         <BarChart data={data} margin={{ top: 8, right: 16, left: 0, bottom: 0 }}>
-          <CartesianGrid strokeDasharray="3 3" vertical={false} />
-          <XAxis dataKey="category" />
-          <YAxis />
-          <Tooltip formatter={(value) => `$${value}`} />
-          <Bar dataKey="total">
-            {data.map((entry, index) => (
-              <Cell key={entry.category} fill={COLORS[index % COLORS.length]} />
-            ))}
-          </Bar>
+          <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={LINE} />
+          <XAxis dataKey="category" stroke={DIM} tick={{ fill: DIM, fontSize: 12, fontFamily: 'JetBrains Mono, monospace' }} tickLine={false} axisLine={{ stroke: LINE }} />
+          <YAxis stroke={DIM} tick={{ fill: DIM, fontSize: 12, fontFamily: 'JetBrains Mono, monospace' }} tickLine={false} axisLine={{ stroke: LINE }} />
+          <Tooltip
+            formatter={(value) => `$${value}`}
+            contentStyle={{ background: PANEL, border: `1px solid ${LINE}`, fontFamily: 'JetBrains Mono, monospace', fontSize: 13 }}
+            labelStyle={{ color: DIM }}
+            itemStyle={{ color: '#e7e9ee' }}
+            cursor={{ fill: LINE, opacity: 0.4 }}
+          />
+          <Bar dataKey="total" fill={BRASS} />
         </BarChart>
       </ResponsiveContainer>
     </div>

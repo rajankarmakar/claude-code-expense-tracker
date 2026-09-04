@@ -4,8 +4,19 @@
   box-sizing: border-box;
 }
 
+:root {
+  --bg: #10192b;
+  --panel: #182338;
+  --line: #2a3a57;
+  --text: #e7e9ee;
+  --dim: #92a0b8;
+  --brass: #c89b3c;
+  --gain: #5fa779;
+  --loss: #c2596b;
+}
+
 body {
-  font-family: Arial, sans-serif;
-  background-color: #ffffff;
-  color: #333;
+  font-family: 'Archivo Narrow', Arial, sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
 }
